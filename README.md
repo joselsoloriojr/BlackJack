@@ -1,6 +1,6 @@
 # BlackJack
 
-##Rules
+## Rules
 1. Immediate BlackJack Pays 3X bet.
 2. Hitting 30 without spliting in 3 cards pays 6X bet.
 3. Any other hand beating the dealer pays X2 bet.
