@@ -1,5 +1,13 @@
 # BlackJack
 
+## Sources & Reference
+
+### Shuffling Algorithm
+https://en.wikipedia.org/wiki/Fisher%E2%80%93Yates_shuffle 
+
+### Basic BlackJack Rules
+https://bicyclecards.com/how-to-play/blackjack/
+
 ## Rules
 1. Immediate BlackJack Pays 3X bet.
 2. Hitting 30 without spliting in 3 cards pays 6X bet.
