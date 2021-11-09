@@ -1,6 +1,7 @@
 # BlackJack
 
 ## Author: Jose Solorio
+Time to make ~16hrs.
 
 ## Sources & Reference
 
