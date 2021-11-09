@@ -1,5 +1,7 @@
 # BlackJack
 
+## Author: Jose Solorio
+
 ## Sources & Reference
 
 ### Shuffling Algorithm
