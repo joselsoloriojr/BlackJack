@@ -11,9 +11,14 @@ public class Hand : MonoBehaviour {
 
     private int bet = 0;
     private bool bust = false;
-    private bool stand = false;
     private bool is30 = false;
 
+
+    /// <summary>
+    /// Sets player card at current internal index and increase handvalue by value of card
+    /// </summary>
+    /// <param name="card">Card to set and inrease handvalue by</param>
+    /// <param name="isDealer">Flag to determine if current hand is dealers hand</param>
     public void Deal(Card card, bool isDealer = false) 
 	{
         IncrementHandValue(card);
@@ -45,6 +50,10 @@ public class Hand : MonoBehaviour {
         }
 	}
 
+    /// <summary>
+    /// Increments handvalue by card value
+    /// </summary>
+    /// <param name="card">Card given to hand</param>
     public void IncrementHandValue(Card card)
     {
         if (card.IsAce() && handvalue + 11 < 22)
@@ -63,12 +72,18 @@ public class Hand : MonoBehaviour {
         }
     }
 
+    /// <summary>
+    /// Flips Dealer's unflipped card in hand
+    /// </summary>
 	public void Flip()
 	{
 		score.text = handvalue.ToString();
 		pos[posIndex++].Flip();
 	}
 
+    /// <summary>
+    /// Resets hand back to defaults
+    /// </summary>
 	public void Reset() 
 	{
         bet = 0;
@@ -83,42 +98,56 @@ public class Hand : MonoBehaviour {
 		}
 	}
 
+    /// <summary>
+    /// Function to get handvalue
+    /// </summary>
+    /// <returns>current handvalue of hand</returns>
 	public int GetHandValue() 
 	{
 		return handvalue;
 	}
 
-    public bool GetStand()
-    {
-        return stand;
-    }
-
+    /// <summary>
+    /// Function to check if hand bust
+    /// </summary>
+    /// <returns>bust flag</returns>
     public bool GetBust()
     {
         return bust;
     }
 
-    public void SetStand(bool enable)
-    {
-        stand = enable;
-    }
-
+    /// <summary>
+    /// Function to get current hand bet
+    /// </summary>
+    /// <returns>current hand bet</returns>
     public int GetBet()
     {
         return bet;
     }
 
+    /// <summary>
+    /// Function to set bet
+    /// </summary>
+    /// <param name="newBet">new bet to set</param>
     public void SetBet(int newBet)
     {
         bet = newBet;
         betText.text = "Bet: $" + bet.ToString();
     }
 
+    /// <summary>
+    /// Function to add to score hand text
+    /// </summary>
+    /// <param name="result">string to append</param>
     public void SetResult(string result)
     {
         score.text += result;
     }
 
+    /// <summary>
+    /// Function to grab last card on hand and reduce posIndex by 1
+    /// </summary>
+    /// <returns>Last hand on card</returns>
     public Card GrabCard()
     {
         Card grabbed = pos[--posIndex].GrabCard();
@@ -135,6 +164,10 @@ public class Hand : MonoBehaviour {
         return grabbed;
     }
 
+    /// <summary>
+    /// Check if hand is 30 in 3
+    /// </summary>
+    /// <returns>is30 flag</returns>
     public bool Is30()
     {
         return is30;

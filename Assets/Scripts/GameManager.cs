@@ -26,9 +26,9 @@ public class GameManager : MonoBehaviour {
     private int handIndex = 0;
     private bool blackjack = false;
     private bool got30 = false;
+    private bool dealerBlackjack = false;
 
-
-	private void Start () 
+    private void Start () 
 	{
         dealBtn.onClick.AddListener(() => DealClicked());
         hitBtn.onClick.AddListener(() => HitClicked());
@@ -46,16 +46,27 @@ public class GameManager : MonoBehaviour {
         dealer.gameObject.SetActive(false);
     }
 
+    /// <summary>
+    /// Command to bring up rules on screen
+    /// </summary>
     private void Rules()
     {
         RulesCanvas.gameObject.SetActive(true);
     }
 
+    /// <summary>
+    /// Command to exit rules
+    /// </summary>
     private void ExitRules()
     {
         RulesCanvas.gameObject.SetActive(false);
     }
+    
 
+    
+    /// <summary>
+    /// Splits pairs, and royals
+    /// </summary>
     private void Split()
     {
         hands[1].gameObject.SetActive(true);
@@ -69,6 +80,10 @@ public class GameManager : MonoBehaviour {
         arrows[0].enabled = true;
     }
 
+
+    /// <summary>
+    /// Comman ran when deal clicked
+    /// </summary>
     private void DealClicked()
     {
         if (cashController.CanPlay())
@@ -98,7 +113,18 @@ public class GameManager : MonoBehaviour {
 
             if (hands[0].GetHandValue() == 21)
             {
-                BlackJack();
+                blackjack = true;
+            }
+
+            if (dealer.GetHandValue() == 21 &&
+                dealer.pos[1].GetValue() == 1)
+            {
+                dealerBlackjack = true;
+            }
+
+            if (blackjack || dealerBlackjack)
+            {
+                StandClicked();
             }
             else
             {
@@ -116,12 +142,6 @@ public class GameManager : MonoBehaviour {
             resultText.gameObject.SetActive(true);
             resultText.text = "Bet must be higher than $0.";
         }
-    }
-
-    private void BlackJack()
-    {
-        blackjack = true;
-        StandClicked();
     }
 
     private void HitClicked()
@@ -143,6 +163,9 @@ public class GameManager : MonoBehaviour {
         }
     }
 
+    /// <summary>
+    /// Command ran when double clicked.
+    /// </summary>
     private void DoubleClicked()
     {
         cashController.UpdateCash(hands[handIndex].GetBet() * -1);
@@ -151,6 +174,9 @@ public class GameManager : MonoBehaviour {
         StandClicked();
     }
 
+    /// <summary>
+    /// Command ran when stand clicked
+    /// </summary>
     private void StandClicked()
     {
         if (hands[1].gameObject.activeSelf && handIndex == 0)
@@ -168,6 +194,9 @@ public class GameManager : MonoBehaviour {
         }
     }
 
+    /// <summary>
+    /// Yields turn to dealer letting dealer finish game
+    /// </summary>
     private void DealersTurn()
     {
         standBtn.interactable = false;
@@ -193,6 +222,9 @@ public class GameManager : MonoBehaviour {
         ResolveGame();
     }
 
+    /// <summary>
+    /// Final state of game where players hand(s) get compared with dealers hands
+    /// </summary>
     private void ResolveGame()
     {
         int amountWon = 0;
@@ -211,12 +243,18 @@ public class GameManager : MonoBehaviour {
             cashController.UpdateCash(amountWon);
         }
 
-        else if (blackjack)
+        else if (blackjack && !dealerBlackjack)
         {
             resultText.gameObject.SetActive(true);
             amountWon = hands[0].GetBet() * 3;
             resultText.text = "BlackJack! Player Won $" + amountWon;
             cashController.UpdateCash(amountWon);
+        }
+
+        else if (dealerBlackjack && !blackjack)
+        {
+            resultText.gameObject.SetActive(true);
+            resultText.text = "Lost! Dealer BlackJack!";
         }
 
         else
@@ -263,6 +301,9 @@ public class GameManager : MonoBehaviour {
         
     }
 
+    /// <summary>
+    /// Resets all hands on table to default
+    /// </summary>
     private void ResetHands() {
         dealer.Reset();
         hands[0].Reset();
@@ -270,11 +311,15 @@ public class GameManager : MonoBehaviour {
         hands[1].gameObject.SetActive(false);
     }
 
+
+    /// <summary>
+    /// Resets game.
+    /// </summary>
     private void GameReset()
     {
         blackjack = false;
+        dealerBlackjack = false;
         got30 = false;
-
 
         cashController.ButtonsEnable(true);
         dealBtn.interactable = true;

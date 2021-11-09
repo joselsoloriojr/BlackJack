@@ -11,6 +11,9 @@ public class Deck : MonoBehaviour
 		CreateDeck();	
 	}
 
+    /// <summary>
+    /// Function to creat deck
+    /// </summary>
 	private void CreateDeck()
 	{
 		for (int i = 0; i < cardSprites.Length; i++)
@@ -28,7 +31,9 @@ public class Deck : MonoBehaviour
 		}
 	}
 
-	// Fisher-Yates Shuffle
+	/// <summary>
+    /// Fisher-Yates shuffle deck
+    /// </summary>
 	public void Shuffle() 
 	{
 		for (int a = cards.Length - 1; a >= 0; a-- ) {
@@ -40,6 +45,10 @@ public class Deck : MonoBehaviour
 		curIndex = 0;
 	}
 
+    /// <summary>
+    /// Return card a curIndex and increment curIndex by one
+    /// </summary>
+    /// <returns>card at curIndex</returns>
 	public Card DealCard() 
 	{
 		return cards[curIndex++];
